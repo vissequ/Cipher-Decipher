@@ -48,22 +48,21 @@ if __name__ == "__main__":
         if mode not in ['c', 'd']:
             print("Invalid mode")
             sys.exit(1)
-        if mode == 'c':
-            input_text = input("Enter the string to cipher: ").strip()
-        else:
-            input_text = input("Enter the numbers to decipher: ").strip()
+        input_file = input("Enter the path to the input file: ").strip()
+        with open(input_file, 'r', encoding='utf-8') as f:
+            input_text = f.read().strip()
     else:
         parser = argparse.ArgumentParser(description="Cipher/Decipher script")
         parser.add_argument("--mode", choices=['c', 'd'], default='c', help="c for cipher (default), d for decipher")
-        parser.add_argument("input_text", nargs='*', help="Input text or numbers")
+        parser.add_argument("input_file", nargs='?', help="Input file path")
         args = parser.parse_args()
         mode = args.mode
-        input_text = ' '.join(args.input_text)
-        if not input_text:
-            if mode == 'c':
-                input_text = input("Enter the string to cipher: ").strip()
-            else:
-                input_text = input("Enter the numbers to decipher: ").strip()
+        if args.input_file:
+            input_file = args.input_file
+        else:
+            input_file = input("Enter the path to the input file: ").strip()
+        with open(input_file, 'r', encoding='utf-8') as f:
+            input_text = f.read().strip()
 
     if mode == 'c':
         print(cipher(input_text))
